@@ -108,7 +108,6 @@ function handleTopMenu(e) {
 
 	// Adds the 'active' class the the clicked element
 	e.target.classList.add('active');
-	console.log(e.target.textContent);
 	showingSubMenu = true;
 
 	function findLink(link) {
