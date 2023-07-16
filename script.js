@@ -83,18 +83,20 @@ subMenuEl.style.top = '0';
 // Task 5.1 - cache all <a> elements in top menu
 const topMenuLinks = topMenuEl.querySelectorAll('a');
 
+// Boolean for displaying/hiding the submenu
 let showingSubMenu = false;
 
 // Tasks 5.2 - 5.6
 topMenuEl.addEventListener('click', handleTopMenu);
 
+// Function for handling 'topMenuEl' events
 function handleTopMenu(e) {
 	e.preventDefault();
 
 	// Return if the clicked element is not an '<a>'
 	if (e.target.localName !== 'a') return;
 
-	// Checks to see if the target is 'active'
+	// Checks to see if the target is 'active' and sets 'showingSubMenu' accordingly
 	if (e.target.classList.contains('active')) {
 		e.target.classList.remove('active');
 		showingSubMenu = false;
@@ -106,16 +108,19 @@ function handleTopMenu(e) {
 	// Removes the 'active' class from all '<a>' elements in topMenuLinks
 	topMenuLinks.forEach(link => link.classList.remove('active'));
 
-	// Adds the 'active' class the the clicked element
+	// Adds the 'active' class to the clicked element
 	e.target.classList.add('active');
 	showingSubMenu = true;
 
+	// Searches for the clicked element to determine if it contains 'subLinks, and returns the element/object and sets the 'showingSubMenu' accordingly
 	function findLink(link) {
 		if (e.target.textContent === link.text && link.subLinks) {
 			showingSubMenu = true;
 			return link.subLinks;
 		} else {
 			showingSubMenu = false;
+
+			// Displays 'Congrats' within the body's '<h1>' tag if the clicked element is the 'About' tab
 			if (e.target.textContent === 'about') {
 				const congrats = mainEl.querySelector('h1');
 				congrats.textContent = 'Congrats!';
@@ -124,17 +129,19 @@ function handleTopMenu(e) {
 		}
 	}
 
+	// Cache the returned object from the 'findLink' function call
 	const subLinks = menuLinks.find(findLink);
 
-	// Task 5.7 - Build the Sub-menu
+	// Task 5.7 - Build the Sub-menu from the returned 'subLinks' object
 	if (showingSubMenu === true) {
 		buildSubMenu(subLinks);
 		subMenuEl.style.top = '100%';
 	} else subMenuEl.style.top = '0';
 }
 
-// Task 5.8 - The Sub-menu
+// Task 5.8 - Builds the Sub-menu
 function buildSubMenu(subLinks) {
+	// Clear the contents of the existing sub-menue
 	subMenuEl.innerHTML = null;
 
 	subLinks.subLinks.forEach(link => {
@@ -145,9 +152,10 @@ function buildSubMenu(subLinks) {
 	});
 }
 
-// Task 6.0
+// Task 6.0 - Add a 'click' event listener
 subMenuEl.addEventListener('click', handleSubMenu);
 
+// Function for handling 'subMenuEl' events
 function handleSubMenu(e) {
 	e.preventDefault();
 
